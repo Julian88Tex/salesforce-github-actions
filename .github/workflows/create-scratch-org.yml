@@ -54,6 +54,10 @@ jobs:
         run: |
           echo "$SFDX_AUTH_URL" > auth-url.txt
           sfdx auth:sfdxurl:store -f auth-url.txt -a devhub
+      - name: Set default Dev Hub
+        run: sfdx force:config:set defaultdevhubusername=devhub
+      - name: List Authorized Orgs
+        run: sfdx force:org:list
 
       - name: Create Scratch Org
         env:
