@@ -1,4 +1,4 @@
-name: Create Salesforce Scratch Org (CumulusCI)
+name: Salesforce Scratch Org Demo for LinkedIn
 
 on:
   workflow_dispatch:
