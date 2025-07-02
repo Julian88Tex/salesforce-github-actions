@@ -74,7 +74,12 @@ jobs:
           cci org info "$ORG_NAME"
       - name: Print Scratch Org Login URL
         run: |
-          sfdx force:org:open --target-org "salesforce-github-actions__cci_scratch_org" --url-only
+          sfdx force:org:open --target-org "salesforce-github-actions__cci_scratch_org" --url-only | tee scratch_org_url.txt
+      - name: Upload Scratch Org Login URL artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: scratch-org-login-url
+          path: scratch_org_url.txt
 
       - name: Clean up key file
         run: rm -f server.key 
