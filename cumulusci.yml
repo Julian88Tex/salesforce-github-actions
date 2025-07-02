@@ -1,0 +1,25 @@
+minimum_cumulusci_version: '4.4.0'
+project:
+    name: salesforce-github-actions
+    package:
+        name: salesforce-github-actions
+        api_version: '63.0'
+    git:
+        default_branch: 'main'
+    source_format: sfdx
+
+tasks:
+    robot:
+        options:
+            suites: robot/salesforce-github-actions/tests
+            options:
+                outputdir: robot/salesforce-github-actions/results
+
+    robot_testdoc:
+        options:
+            path: robot/salesforce-github-actions/tests
+            output: robot/salesforce-github-actions/doc/salesforce-github-actions_tests.html
+
+    run_tests:
+        options:
+            required_org_code_coverage_percent: 75

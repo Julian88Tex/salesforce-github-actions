@@ -1,0 +1,76 @@
+name: Create Salesforce Scratch Org (CumulusCI)
+
+on:
+  workflow_dispatch:
+    inputs:
+      org_type:
+        description: 'Org Type (choose from orgs/ folder)'
+        required: true
+        default: 'dev'
+        type: choice
+        options:
+          - beta
+          - dev
+          - feature
+          - release
+      days:
+        description: 'Number of days before expiration (1-30)'
+        required: true
+        default: '7'
+      org_name:
+        description: 'Scratch Org Alias/Name'
+        required: true
+        default: 'cci_scratch_org'
+
+jobs:
+  create_scratch_org:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install Salesforce CLI
+        run: |
+          npm install --global @salesforce/cli
+
+      - name: Install CumulusCI
+        run: |
+          python -m pip install --upgrade pip
+          pip install --upgrade 'cumulusci>=4.4.0'
+
+      - name: Authenticate Dev Hub
+        env:
+          SFDX_CLIENT_ID: ${{ secrets.SFDX_CLIENT_ID }}
+          SFDX_HUB_KEY: ${{ secrets.SFDX_HUB_KEY }}
+          SFDX_HUB_USERNAME: ${{ secrets.SFDX_HUB_USERNAME }}
+        run: |
+          echo "$SFDX_HUB_KEY" > server.key
+          cci org keychain set encrypted False
+          cci org connect devhub --client-id "$SFDX_CLIENT_ID" --username "$SFDX_HUB_USERNAME" --keyfile server.key --sandbox False
+
+      - name: Create Scratch Org
+        env:
+          ORG_TYPE: ${{ github.event.inputs.org_type }}
+          DAYS: ${{ github.event.inputs.days }}
+          ORG_NAME: ${{ github.event.inputs.org_name }}
+        run: |
+          cci org scratch "$ORG_NAME" "$ORG_TYPE" --days "$DAYS" --devhub devhub
+
+      - name: Show Org Info
+        env:
+          ORG_NAME: ${{ github.event.inputs.org_name }}
+        run: |
+          cci org info "$ORG_NAME"
+
+      - name: Clean up key file
+        run: rm -f server.key 

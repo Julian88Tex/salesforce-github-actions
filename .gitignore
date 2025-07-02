@@ -1,0 +1,63 @@
+# CCI
+.cci
+/src.orig
+/src
+
+# Python
+*.pyc
+__pycache__
+
+# Robot Framework results
+robot/salesforce-github-actions/results/
+
+# Salesforce cache
+.sf/
+.sfdx/
+.localdevserver/
+deploy-options.json
+
+# LWC VSCode autocomplete
+**/lwc/jsconfig.json
+
+# LWC Jest coverage reports
+coverage/
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Dependency directories
+node_modules/
+
+# Eslint cache
+.eslintcache
+
+# MacOS system files
+.DS_Store
+
+# Windows system files
+Thumbs.db
+ehthumbs.db
+[Dd]esktop.ini
+$RECYCLE.BIN/
+
+# Editors
+*.sublime-project
+*.sublime-workspace
+.vscode
+.idea
+.project
+.settings
+
+# Ignore org files (local Salesforce org configs)
+.cumulusci/**/*.org
+
+# Ignore local service and config JSONs in cumulusci
+.cumulusci/**/*.json
+
+# Ignore logs and cache in Salesforce CLI directories
+.sf/
+.sfdx/
