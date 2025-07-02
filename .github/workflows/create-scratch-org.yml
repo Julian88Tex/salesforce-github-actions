@@ -39,6 +39,8 @@ jobs:
         run: |
           echo "$SFDX_AUTH_URL" > auth-url.txt
           sfdx auth:sfdxurl:store -f auth-url.txt -a devhub
+      - name: Set default Dev Hub
+        run: sfdx force:config:set defaultdevhubusername=devhub
       - name: Install CumulusCI (workaround)
         run: |
           python3 -m pip install --upgrade pip
