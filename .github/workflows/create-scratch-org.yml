@@ -48,15 +48,12 @@ jobs:
           python -m pip install --upgrade pip
           pip install --upgrade 'cumulusci>=4.4.0'
 
-      - name: Authenticate Dev Hub
+      - name: Authenticate Dev Hub with Auth URL
         env:
-          SFDX_CLIENT_ID: ${{ secrets.SFDX_CLIENT_ID }}
-          SFDX_HUB_KEY: ${{ secrets.SFDX_HUB_KEY }}
-          SFDX_HUB_USERNAME: ${{ secrets.SFDX_HUB_USERNAME }}
+          SFDX_AUTH_URL: ${{ secrets.SFDX_AUTH_URL }}
         run: |
-          echo "$SFDX_HUB_KEY" > server.key
-          cci org keychain set encrypted False
-          cci org connect devhub --client-id "$SFDX_CLIENT_ID" --username "$SFDX_HUB_USERNAME" --keyfile server.key --sandbox False
+          echo "$SFDX_AUTH_URL" > auth-url.txt
+          sfdx auth:sfdxurl:store -f auth-url.txt -a devhub
 
       - name: Create Scratch Org
         env:
