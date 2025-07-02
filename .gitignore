@@ -61,3 +61,8 @@ $RECYCLE.BIN/
 # Ignore logs and cache in Salesforce CLI directories
 .sf/
 .sfdx/
+
+# Ignore Robot Framework output files
+output.xml
+log.html
+report.html
