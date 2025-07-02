@@ -25,28 +25,10 @@ on:
 jobs:
   create_scratch_org:
     runs-on: ubuntu-latest
+    container: ghcr.io/geekstewie/salesforcedx_cci_dev:latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
-
-      - name: Install Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '18'
-
-      - name: Install Salesforce CLI
-        run: |
-          npm install --global @salesforce/cli
-
-      - name: Install CumulusCI
-        run: |
-          python -m pip install --upgrade pip
-          pip install --upgrade 'cumulusci>=4.4.0'
 
       - name: Authenticate Dev Hub with Auth URL
         env:
