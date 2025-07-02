@@ -23,3 +23,8 @@ tasks:
     run_tests:
         options:
             required_org_code_coverage_percent: 75
+
+orgs:
+  scratch:
+    cci_scratch_org:
+      config_file: orgs/dev.json
