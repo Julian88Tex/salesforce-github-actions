@@ -35,6 +35,10 @@ jobs:
         run: |
           echo "$SFDX_AUTH_URL" > auth-url.txt
           sfdx auth:sfdxurl:store -f auth-url.txt -a devhub
+      - name: Install CumulusCI (workaround)
+        run: |
+          python3 -m pip install --upgrade pip
+          python3 -m pip install --upgrade 'cumulusci>=4.4.0'
       - name: Create Scratch Org
         env:
           ORG_TYPE: ${{ github.event.inputs.org_type }}
