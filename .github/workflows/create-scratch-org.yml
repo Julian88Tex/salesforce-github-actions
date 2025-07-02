@@ -57,6 +57,8 @@ jobs:
           ORG_NAME: ${{ github.event.inputs.org_name }}
         run: |
           cci org info "$ORG_NAME"
+      - name: List Authorized Orgs
+        run: sfdx force:org:list
       - name: Print Scratch Org Login URL
         env:
           ORG_NAME: ${{ github.event.inputs.org_name }}
