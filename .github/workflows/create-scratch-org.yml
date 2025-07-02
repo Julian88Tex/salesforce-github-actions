@@ -25,21 +25,10 @@ on:
 jobs:
   create_scratch_org:
     runs-on: ubuntu-latest
-    container: arcusglobal/cumulusci:latest
+    container: julian88tex/salesforce-cci-sfcli:latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-      - name: Install Node.js
-        run: |
-          if ! command -v node > /dev/null; then \
-            curl -fsSL https://deb.nodesource.com/setup_18.x | bash - && \
-            apt-get install -y nodejs; \
-          fi
-      - name: Install Salesforce CLI
-        run: |
-          if ! command -v sfdx > /dev/null; then \
-            npm install --global @salesforce/cli; \
-          fi
       - name: Authenticate Dev Hub with Auth URL
         env:
           SFDX_AUTH_URL: ${{ secrets.SFDX_AUTH_URL }}
