@@ -60,9 +60,7 @@ jobs:
       - name: List Authorized Orgs
         run: sfdx force:org:list
       - name: Print Scratch Org Login URL
-        env:
-          ORG_NAME: ${{ github.event.inputs.org_name }}
         run: |
-          sfdx force:org:open -u "$ORG_NAME" --urlonly
+          sfdx force:org:open -u "salesforce-github-actions__cci_scratch_org" --urlonly
       - name: Clean up key file
         run: rm -f server.key 
