@@ -25,18 +25,27 @@ on:
 jobs:
   create_scratch_org:
     runs-on: ubuntu-latest
-    container: ghcr.io/geekstewie/salesforcedx_cci_dev:latest
+    container: arcusglobal/cumulusci:latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-
+      - name: Install Node.js
+        run: |
+          if ! command -v node > /dev/null; then \
+            curl -fsSL https://deb.nodesource.com/setup_18.x | bash - && \
+            apt-get install -y nodejs; \
+          fi
+      - name: Install Salesforce CLI
+        run: |
+          if ! command -v sfdx > /dev/null; then \
+            npm install --global @salesforce/cli; \
+          fi
       - name: Authenticate Dev Hub with Auth URL
         env:
           SFDX_AUTH_URL: ${{ secrets.SFDX_AUTH_URL }}
         run: |
           echo "$SFDX_AUTH_URL" > auth-url.txt
           sfdx auth:sfdxurl:store -f auth-url.txt -a devhub
-
       - name: Create Scratch Org
         env:
           ORG_TYPE: ${{ github.event.inputs.org_type }}
@@ -44,7 +53,6 @@ jobs:
           ORG_NAME: ${{ github.event.inputs.org_name }}
         run: |
           cci org scratch "$ORG_NAME" "$ORG_TYPE" --days "$DAYS" --devhub devhub
-
       - name: Show Org Info
         env:
           ORG_NAME: ${{ github.event.inputs.org_name }}
